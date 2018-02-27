@@ -1,5 +1,5 @@
 {
-  "name": "TextFieldValidator",
+  "name": "PKTextFieldValidator",
   "version": "0.0.1",
   "private": false,
   "scripts": {
