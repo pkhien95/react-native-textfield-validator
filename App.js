@@ -1,58 +1,63 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import TextField from "./components/TextField";
+import Validator, {EmailRule} from "./validator/Validator";
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+export default class App extends Component {
+	
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+			email: ''
+		};
+		
+		this.validator = new Validator();
+	}
+	
+	emailOnChangeText = (text) => {
+		this.setState((previousState) => {
+			return {
+				...previousState,
+				email: text
+			}
+		})
+	};
+	
+	render() {
+		return (
+			<View style={styles.container}>
+				<TextField ref={(ref) => this.txtEmail = ref}
+						   inputRef={(ref) => this.inputEmail = ref}
+						   containerStyle={styles.emailContainer}
+						   inputStyle={styles.emailInput}
+						   label={'Email'}
+						   showLabel={true}
+						   onChangeText={(text) => this.emailOnChangeText(text)}
+						   value={this.state.email}
+						   rules={[new EmailRule()]}
+						   validator={this.validator}
+						   keyboardType={'email-address'}
+						   returnKeyType={'next'}/>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+	container: {
+		flex: 1,
+		justifyContent: 'flex-start',
+		alignItems: 'stretch',
+		backgroundColor: 'white',
+		paddingVertical: 20,
+		paddingHorizontal: 15,
+	},
+	emailContainer: {
+		marginTop: 50,
+		marginBottom: 20,
+	},
+	emailInput: {
+	
+	}
 });
